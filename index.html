@@ -120,17 +120,14 @@
             .hamburger-menu {
                 display: block;
             }
+            /* Removed absolute positioning for nav-links on mobile */
             .nav-links {
-                display: none;
+                /* display: none; */ /* Handled by Tailwind hidden/flex */
                 flex-direction: column;
                 width: 100%;
                 background-color: var(--dark-bg);
-                position: absolute;
-                top: 64px; /* Height of header */
-                left: 0;
+                /* Removed top, left, border-radius for natural flow */
                 padding: 1rem 0;
-                border-bottom-left-radius: 0.75rem;
-                border-bottom-right-radius: 0.75rem;
                 z-index: 10;
             }
             .nav-links.active {
@@ -148,12 +145,21 @@
 
     <!-- Header and Navigation -->
     <header class="p-4 shadow-lg rounded-b-xl sticky top-0 z-[1000]" style="background-color: var(--header-solid-bg);">
-        <nav class="container mx-auto flex justify-between items-center px-4">
-            <div class="text-2xl font-bold text-name-color rounded-md p-2">
-                Tomer Richter Barouch
+        <nav class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
+            <!-- Title and Hamburger on one row for mobile -->
+            <div class="flex justify-between items-center w-full md:w-auto">
+                <div class="text-2xl font-bold text-name-color rounded-md p-2">
+                    Tomer Richter Barouch
+                </div>
+                <!-- Hamburger menu icon for mobile -->
+                <div class="hamburger-menu cursor-pointer md:hidden" id="hamburger">
+                    <svg class="w-8 h-8 text-subtle-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </div>
             </div>
-            <!-- Search Bar -->
-            <div class="relative flex-grow mx-4 max-w-md">
+            <!-- Search Bar - now takes full width and orders last on mobile -->
+            <div class="relative w-full md:w-auto flex-grow mx-0 md:mx-4 my-4 md:my-0 order-last md:order-none">
                 <input type="text" id="searchInput" placeholder="Search portfolio..."
                        class="w-full p-2 pl-10 rounded-full bg-dark-bg border border-subtle-blue text-text-light
                               focus:outline-none focus:ring-2 focus:ring-subtle-purple focus:border-transparent">
@@ -163,13 +169,8 @@
                     </svg>
                 </div>
             </div>
-            <!-- Hamburger menu icon for mobile -->
-            <div class="hamburger-menu cursor-pointer" id="hamburger">
-                <svg class="w-8 h-8 text-subtle-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </div>
-            <ul class="nav-links flex space-x-6 text-lg font-semibold" id="nav-links">
+            <!-- Navigation Links - now flex-col on mobile, hidden by default -->
+            <ul class="nav-links hidden flex-col space-y-2 md:flex md:flex-row md:space-x-6 md:space-y-0 text-lg font-semibold w-full md:w-auto" id="nav-links">
                 <li><a href="#" class="hover:text-subtle-blue transition duration-300 ease-in-out rounded-md p-2 hover:bg-dark-bg">About</a></li>
                 <li><a href="#projects" class="hover:text-subtle-blue transition duration-300 ease-in-out rounded-md p-2 hover:bg-dark-bg">Projects</a></li>
                 <li><a href="#contact" class="hover:text-subtle-blue transition duration-300 ease-in-out rounded-md p-2 hover:bg-dark-bg">Contact</a></li>
@@ -309,14 +310,16 @@
         const navLinks = document.getElementById('nav-links');
 
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+            navLinks.classList.toggle('hidden'); // Toggle Tailwind's hidden class
+            navLinks.classList.toggle('flex'); // Toggle Tailwind's flex class
         });
 
         // Close mobile nav when a link is clicked
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
+                if (navLinks.classList.contains('flex')) { // Check for flex class
+                    navLinks.classList.remove('flex');
+                    navLinks.classList.add('hidden');
                 }
             });
         });

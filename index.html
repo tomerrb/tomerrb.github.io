@@ -1,8 +1,390 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomer Richter Barouch</title>
-    </head>
-<body>
-    </body>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Tailwind Configuration for subtle colors and font */
+        :root {
+            --subtle-blue: #6A8EAE; /* Muted blue */
+            --subtle-purple: #8A6AAE; /* Muted purple */
+            --dark-bg: #1A1A2E;
+            --dark-card: #2A2A4A;
+            --text-light: #E0E0E0;
+            --header-height: 80px; /* Approximate height of the sticky header */
+            --header-solid-bg: #134e4a; /* New solid background color for the header */
+            --name-color: #fef08a;
+        }
+
+        /* Custom scrollbar for a futuristic look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--subtle-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--subtle-purple);
+        }
+
+        /* Applying custom colors and font to Tailwind */
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for navigation */
+            scroll-padding-top: var(--header-height); /* Offset for sticky header when navigating to anchors */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        .text-subtle-blue {
+            color: var(--subtle-blue);
+        }
+
+        .text-name-color {
+            color: var(--name-color);
+        }
+
+        .text-subtle-purple {
+            color: var(--subtle-purple);
+        }
+
+        .bg-subtle-gradient {
+            background: linear-gradient(90deg, var(--subtle-blue) 0%, var(--subtle-purple) 100%);
+        }
+
+        .border-subtle-blue {
+            border-color: var(--subtle-blue);
+        }
+
+        .border-subtle-purple {
+            border-color: var(--subtle-purple);
+        }
+
+        .shadow-subtle-blue {
+            box-shadow: 0 0 10px var(--subtle-blue);
+        }
+
+        .shadow-subtle-purple {
+            box-shadow: 0 0 10px var(--subtle-purple);
+        }
+
+        /* Keyframe for subtle pulse effect on elements */
+        @keyframes pulse-subtle {
+            0%, 100% {
+                box-shadow: 0 0 5px var(--subtle-blue), 0 0 10px var(--subtle-purple);
+            }
+            50% {
+                box-shadow: 0 0 10px var(--subtle-blue), 0 0 15px var(--subtle-purple);
+            }
+        }
+
+        .animate-pulse-subtle {
+            animation: pulse-subtle 3s infinite alternate;
+        }
+
+        /* Animation for glowing text */
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 3px var(--subtle-blue), 0 0 6px var(--subtle-purple);
+            }
+            50% {
+                text-shadow: 0 0 6px var(--subtle-blue), 0 0 10px var(--subtle-purple);
+            }
+        }
+
+        .text-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        /* Responsive hamburger menu */
+        .hamburger-menu {
+            display: none; /* Hidden by default on larger screens */
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: var(--dark-bg);
+                position: absolute;
+                top: 64px; /* Height of header */
+                left: 0;
+                padding: 1rem 0;
+                border-bottom-left-radius: 0.75rem;
+                border-bottom-right-radius: 0.75rem;
+                z-index: 10;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                padding: 0.75rem 1.5rem;
+                text-align: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-text-light min-h-screen flex flex-col">
+
+    <!-- Header and Navigation -->
+    <header class="p-4 shadow-lg rounded-b-xl sticky top-0 z-[1000]" style="background-color: var(--header-solid-bg);">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <div class="text-2xl font-bold text-name-color rounded-md p-2">
+                Tomer Richter Barouch
+            </div>
+            <!-- Search Bar -->
+            <div class="relative flex-grow mx-4 max-w-md">
+                <input type="text" id="searchInput" placeholder="Search portfolio..."
+                       class="w-full p-2 pl-10 rounded-full bg-dark-bg border border-subtle-blue text-text-light
+                              focus:outline-none focus:ring-2 focus:ring-subtle-purple focus:border-transparent">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-subtle-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <!-- Hamburger menu icon for mobile -->
+            <div class="hamburger-menu cursor-pointer" id="hamburger">
+                <svg class="w-8 h-8 text-subtle-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </div>
+            <ul class="nav-links flex space-x-6 text-lg font-semibold" id="nav-links">
+                <li><a href="#" class="hover:text-subtle-blue transition duration-300 ease-in-out rounded-md p-2 hover:bg-dark-bg">About</a></li>
+                <li><a href="#projects" class="hover:text-subtle-blue transition duration-300 ease-in-out rounded-md p-2 hover:bg-dark-bg">Projects</a></li>
+                <li><a href="#contact" class="hover:text-subtle-blue transition duration-300 ease-in-out rounded-md p-2 hover:bg-dark-bg">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto p-6 space-y-48 mt-8">
+
+        <!-- About Section -->
+        <section id="about" class="bg-dark-card p-8 rounded-2xl shadow-lg border-2 border-subtle-blue animate-pulse-subtle">
+            <h2 class="text-4xl font-bold mb-6 text-subtle-blue text-center">About Me</h2>
+            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                <div class="flex-shrink-0 mb-6 md:mb-0">
+                    <img src="https://placehold.co/200x200/2A2A4A/6A8EAE?text=Your+Photo" alt="Your Photo" class="w-48 h-48 rounded-full border-4 border-subtle-purple object-cover shadow-lg">
+                </div>
+                <div class="text-lg leading-relaxed text-center md:text-left about-content">
+                    <p class="mb-4">
+                        Hello! I'm <span class="text-name-color font-semibold">Tomer Richter Barouch</span>, a passionate software developer with a knack for crafting innovative solutions and building robust applications. My journey in the tech world began with a fascination for how things work, evolving into a dedication to creating impactful and user-centric software.
+                    </p>
+                    <p class="mb-4">
+                        I specialize in <span class="text-subtle-purple font-semibold">Full-Stack Development</span>, with expertise in modern web technologies like React, Node.js, and Python. I thrive in dynamic environments, constantly learning and adapting to new challenges. My goal is to leverage technology to solve real-world problems and contribute to projects that make a difference.
+                    </p>
+                    <p>
+                        When I'm not coding, you can find me exploring new frameworks, contributing to open-source projects, or diving into the latest advancements in AI and machine learning. Let's build something amazing together!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="bg-dark-card p-8 rounded-2xl shadow-lg border-2 border-subtle-purple animate-pulse-subtle">
+            <h2 class="text-4xl font-bold mb-8 text-subtle-purple text-center">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-container">
+                <!-- Project Card 1 -->
+                <div class="bg-dark-bg p-6 rounded-xl shadow-md border border-subtle-blue hover:shadow-subtle-blue transition duration-300 ease-in-out transform hover:-translate-y-1 project-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-subtle-blue">Project Alpha</h3>
+                    <p class="text-gray-300 mb-4">
+                        A cutting-edge web application designed for real-time data visualization. Built with React.js and D3.js, featuring a highly interactive user interface.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">React</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">D3.js</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Node.js</span>
+                    </div>
+                    <a href="#" class="inline-block text-subtle-purple hover:underline font-medium">View Project &rarr;</a>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="bg-dark-bg p-6 rounded-xl shadow-md border border-subtle-purple hover:shadow-subtle-purple transition duration-300 ease-in-out transform hover:-translate-y-1 project-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-subtle-purple">Quantum Ledger System</h3>
+                    <p class="text-gray-300 mb-4">
+                        A secure blockchain-based ledger system for decentralized transactions. Implemented using Python and custom cryptographic algorithms.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Blockchain</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Cryptography</span>
+                    </div>
+                    <a href="#" class="inline-block text-subtle-blue hover:underline font-medium">View Project &rarr;</a>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="bg-dark-bg p-6 rounded-xl shadow-md border border-subtle-blue hover:shadow-subtle-blue transition duration-300 ease-in-out transform hover:-translate-y-1 project-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-subtle-blue">AI-Powered Chatbot</h3>
+                    <p class="text-gray-300 mb-4">
+                        An intelligent conversational AI chatbot integrated into customer service platforms. Developed with natural language processing (NLP) techniques.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">AI/ML</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">NLP</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">TensorFlow</span>
+                    </div>
+                    <a href="#" class="inline-block text-subtle-purple hover:underline font-medium">View Project &rarr;</a>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="bg-dark-bg p-6 rounded-xl shadow-md border border-subtle-purple hover:shadow-subtle-purple transition duration-300 ease-in-out transform hover:-translate-y-1 project-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-subtle-purple">Mobile Game Engine</h3>
+                    <p class="text-gray-300 mb-4">
+                        A lightweight 2D game engine for mobile platforms, optimized for performance and touch interactions. Written in Swift.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Swift</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Game Dev</span>
+                        <span class="bg-subtle-gradient text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">iOS</span>
+                    </div>
+                    <a href="#" class="inline-block text-subtle-blue hover:underline font-medium">View Project &rarr;</a>
+                </div>
+            </div>
+            <div id="no-results" class="text-center text-lg text-gray-400 mt-8 hidden">
+                No results found. Please try a different search term.
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="bg-dark-card p-8 rounded-2xl shadow-lg border-2 border-subtle-blue animate-pulse-subtle">
+            <h2 class="text-4xl font-bold mb-6 text-subtle-blue text-center">Get in Touch</h2>
+            <div class="max-w-xl mx-auto text-center">
+                <p class="text-lg mb-6">
+                    I'm always open to new opportunities, collaborations, and interesting discussions. Feel free to reach out!
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-center space-x-3 text-lg">
+                        <!-- Email Icon -->
+                        <svg class="w-6 h-6 text-subtle-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 4v7a2 2 0 002 2h14a2 2 0 002-2v-7m-18 0l-3 3"></path></svg>
+                        <a href="mailto:your.email@example.com" class="text-text-light hover:text-subtle-blue transition duration-300">your.email@example.com</a>
+                    </div>
+                    <div class="flex items-center justify-center space-x-3 text-lg">
+                        <!-- LinkedIn Icon -->
+                        <svg class="w-6 h-6 text-subtle-purple" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"></path></svg>
+                        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="text-text-light hover:text-subtle-blue transition duration-300">linkedin.com/in/yourprofile</a>
+                    </div>
+                    <div class="flex items-center justify-center space-x-3 text-lg">
+                        <!-- GitHub Icon -->
+                        <svg class="w-6 h-6 text-subtle-purple" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.799 8.205 11.385.6.11.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.332-1.757-1.332-1.757-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.238 1.838 1.238 1.07 1.835 2.809 1.305 3.49.998.108-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.125-.3-.535-1.52.117-3.176 0 0 1.005-.322 3.3-.995.955-.265 1.96-.397 2.96-.397 1.002 0 2.007.132 2.96.397 2.295.673 3.297.995 3.297.995.653 1.656.243 2.876.118 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.805 5.625-5.475 5.92.43.37.81 1.096.81 2.22 0 1.606-.015 2.895-.015 3.286 0 .32.21.69.825.575C20.565 21.801 24 17.309 24 12c0-6.627-5.373-12-12-12z" clip-rule="evenodd"></path></svg>
+                        <a href="https://github.com/yourusername" target="_blank" class="text-text-light hover:text-subtle-blue transition duration-300">github.com/yourusername</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-card p-6 text-center text-gray-400 mt-8 rounded-t-xl shadow-lg">
+        <p>&copy; <span id="current-year"></span> Tomer Richter Barouch. All rights reserved.</p>
+        <p class="text-sm mt-2">Designed with Gemini</p>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Hamburger menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile nav when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const aboutSection = document.getElementById('about');
+        const projectsContainer = document.getElementById('projects-container');
+        const projectCards = document.querySelectorAll('.project-card');
+        const noResultsMessage = document.getElementById('no-results');
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            let resultsFound = false;
+
+            // Search in About Me section
+            const aboutContent = aboutSection.querySelector('.about-content');
+            if (aboutContent) {
+                const aboutText = aboutContent.textContent.toLowerCase();
+                if (searchTerm === '' || aboutText.includes(searchTerm)) {
+                    aboutSection.style.display = 'block';
+                    resultsFound = true;
+                } else {
+                    aboutSection.style.display = 'none';
+                }
+            }
+
+            // Search in Projects section
+            let projectMatches = 0;
+            projectCards.forEach(card => {
+                const cardText = card.textContent.toLowerCase();
+                if (searchTerm === '' || cardText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    projectMatches++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (projectMatches > 0 || aboutSection.style.display === 'block') {
+                resultsFound = true;
+            }
+
+            // Show/hide no results message
+            if (resultsFound) {
+                noResultsMessage.classList.add('hidden');
+            } else {
+                noResultsMessage.classList.remove('hidden');
+            }
+        });
+
+        // Optional: Add a subtle parallax effect to sections on scroll
+        // This is a simple example and can be expanded for more complex effects
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const offset = window.innerHeight / 2; // When section is halfway in viewport
+                if (rect.top < offset && rect.bottom > offset) {
+                    // Example: Apply a subtle scale or shadow change
+                    section.style.transform = `scale(1.01)`;
+                    section.style.boxShadow = `0 0 20px var(--subtle-blue), 0 0 30px var(--subtle-purple)`;
+                } else {
+                    section.style.transform = `scale(1)`;
+                    section.style.boxShadow = `0 0 15px var(--subtle-blue), 0 0 25px var(--subtle-purple)`;
+                }
+            });
+        });
+    </script>
+</body>
 </html>
